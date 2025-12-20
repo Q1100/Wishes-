@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix Countdown 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            color: #00ff00; /* Green theme */
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Matrix Canvas */
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Overlay Content */
+        .content-layer {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4); /* Slightly darker for readability */
+        }
+
+        #countdown-screen, #main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Glass effect box */
+        .glass-container {
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8); 
+            border: 2px solid #00ff00;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            backdrop-filter: blur(8px);
+            max-width: 80%;
+        }
+
+        #timer {
+            font-size: 50px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ff00;
+            margin: 20px 0;
+        }
+
+        h1 { margin: 10px 0; font-size: 28px; }
+        p { color: #88ff88; }
+
+        .big-year {
+            font-size: 80px;
+            margin: 0;
+            color: #00ff00;
+            text-shadow: 0 0 20px #00ff00;
+        }
+
+        .wa-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .wa-link:hover {
+            background: #00ff00;
+            color: black;
+            box-shadow: 0 0 15px #00ff00;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div class="content-layer">
+        <div id="countdown-screen" class="glass-container">
+            <h1 id="header-text">Hang tight jack 2026 is coming:</h1>
+            <div id="timer"></div>
+            <p id="target-text">Target: Jan 1, 2026 00:00:00 </p>
+        </div>
+
+        <div id="main-content">
+            <div class="glass-container">
+                <h1 class="big-year">2026</h1>
+                <h2 style="font-size: 22px;">Walking into 2026 with the most precious people in my life.</h2>
+                <p>Happy New Year to Everyone!</p>
+                <br>
+                <p>Don't tap on my Name </p>
+                <a class="wa-link" href="https://wa.me/916302965804?text=Your wish means a lot 😊">
+                    jack___Q <sub>x</sub> 😊
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Enhanced Matrix Effect ---
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Matrix characters
+        const matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%".split("");
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            // Semi-transparent black to create trailing effect
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#00ff00"; 
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+
+        // --- Timer logic from your file ---
+        function updateTimer() {
+            // Note: Update these dates as needed
+            const openTime = new Date("2025-12-20T20:30:00").getTime();
+            const expiryTime = new Date("2025-12-20T20:31:00").getTime();
+            const now = new Date().getTime();
+
+            const countdownScreen = document.getElementById('countdown-screen');
+            const mainContent = document.getElementById('main-content');
+            const timerDisplay = document.getElementById('timer');
+            const headerText = document.getElementById('header-text');
+            const targetText = document.getElementById('target-text');
+
+            if (now < openTime) {
+                // Before Event starts
+                const diff = openTime - now;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                timerDisplay.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+                headerText.style.display = "block";
+                targetText.style.display = "block";
+                countdownScreen.style.display = "flex";
+                mainContent.style.display = "none";
+            } 
+            else if (now > expiryTime) {
+                // After Event expires
+                timerDisplay.innerHTML = "❌ EXPIRED";
+                headerText.style.display = "none";
+                targetText.style.display = "none";
+                countdownScreen.style.display = "flex";
+                mainContent.style.display = "none";
+            } 
+            else {
+                // During the Event window
+                countdownScreen.style.display = "none";
+                mainContent.style.display = "flex";
+            }
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
+
